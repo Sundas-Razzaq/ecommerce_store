@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#28a745" class="bi bi-check-circle-fill mb-3" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>
+        <h1 class="display-5 fw-bold">Order Confirmed!</h1>
+        <p class="lead">Your order <strong>#{{ order.order_number }}</strong> has been placed successfully.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Changed to row with two equal columns -->
+            <div class="row g-4">  <!-- Added g-4 for gap between columns -->
+                <!-- Order Summary Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h2 class="h5 mb-0">Order Summary</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <p><strong>Order Number:</strong><br> {{ order.order_number }}</p>
+                                    <p><strong>Order Date:</strong><br> {{ order.created_at|date:"F j, Y" }}</p>
+                                    <p><strong>Status:</strong><br> <span class="badge bg-info">{{ order.get_status_display }}</span></p>
+                                    <p><strong>Payment Method:</strong><br> {{ order.get_payment_method_display }}</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="h6 mb-3">Items</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th class="text-end">Price</th>
+                                            <th class="text-end">Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in order.items.all %}
+                                        <tr>
+                                            <td>{{ item.product.title }}</td>
+                                            <td class="text-end">${{ item.price }}</td>
+                                            <td class="text-end">{{ item.quantity }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Information Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h2 class="h5 mb-0">Delivery Information</h2>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Address:</strong><br>
+                            {{ order.shipping_address }}</p>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <p><strong>Phone:</strong><br> {{ order.phone_number }}</p>
+                                    <p><strong>Email:</strong><br> {{ order.email }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Moved the total here to save space -->
+                            <div class="mt-4 pt-3 border-top">
+                                <h3 class="h6">Order Total</h3>
+                                <p class="h4 text-end">${{ order.total }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons row -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                <a href="{% url 'products:product_list' %}" class="btn btn-outline-secondary me-md-2">
+                    <i class="bi bi-arrow-left"></i> Continue Shopping
+                </a>
+                <a href="{% url 'checkout:order_detail' order.order_number %}" class="btn btn-primary">
+                    <i class="bi bi-receipt"></i> View Order Details
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

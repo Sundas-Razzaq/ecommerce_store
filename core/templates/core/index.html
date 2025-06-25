@@ -1,0 +1,203 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+
+    <!-- header section start -->
+    <section id="hero">
+        <div class="container">
+            <h4>Trade-in-offer</h4>
+            <h2>Super valu deals</h2>
+            <h1>On all products</h1>
+            <p>Save more with coupons & upto 65% off!</p>
+            <button>Shop now!</button>
+        </div>
+    </section>
+
+    <!-- features section -->
+    <section id="features" class="section-p1 container">
+        <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f1.png' %}" alt="Free Shipping" class="img-fluid">
+                    <h6>Free Shipping</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f2.png' %}" alt="Online Orders" class="img-fluid">
+                    <h6>Online Orders</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f3.png' %}" alt="Save Money" class="img-fluid">
+                    <h6>Save Money</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f4.png' %}" alt="Promotions" class="img-fluid">
+                    <h6>Promotions</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f5.png' %}" alt="Happy Sell" class="img-fluid">
+                    <h6>Happy Sell</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f6.png' %}" alt="24/7 Support" class="img-fluid">
+                    <h6>24/7 Support</h6>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="category-nav">
+        <div class="container">
+            <div class="category-links">
+                <a href="#featured" class="active">Featured Products</a>
+                <a href="#trending">Trending</a>
+                <a href="#new-arrivals">New Arrivals</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section id="product-section">
+        <h2 id="featured">Featured Products</h2>
+        <p>Step out in style with our exclusive collection</p>
+        <div class="row g-4 gapp">
+            {% for product in featured_products %}
+            {% include 'partials/product_card.html' with product=product %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Trending Section -->
+    <section id="product-section">
+        <h2 id="trending">Trending Products</h2>
+        <p>Complete your look with our stylish accessories</p>
+        <div class="row g-4 gapp">
+            {% for product in trending_products %}
+            {% include 'partials/product_card.html' with product=product %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+    <section id="product-section">
+        <h2 id="new-arrivals">New Arrivals</h2>
+        <p>Explore the freshest styles just in</p>
+        <div class="row g-4 gapp">
+            {% for product in new_arrivals %}
+            {% include 'partials/product_card.html' with product=product %}
+            {% endfor %}
+        </div>
+    </section>
+<!-- Testimonials Section -->
+    <section id="testimonials" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">What Our Customers Say</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card p-4 h-100">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="mb-4">"The quality of products exceeded my expectations. Will definitely shop here again!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="50" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Sarah Johnson</h6>
+                                <small class="text-muted">Verified Buyer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card p-4 h-100">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                        <p class="mb-4">"Excellent customer service and fast delivery. Highly recommended!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-3" width="50" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Michael Chen</h6>
+                                <small class="text-muted">Verified Buyer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card p-4 h-100">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="mb-4">"Best shopping experience I've had online. Products are even better in person!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="50" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Emma Rodriguez</h6>
+                                <small class="text-muted">Verified Buyer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">10K+</div>
+                        <p class="mb-0">Happy Customers</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <p class="mb-0">Premium Products</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <p class="mb-0">Customer Support</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <p class="mb-0">Satisfaction Guarantee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    {% endblock %}
+{% block footer %}
+    {% include 'includes/footer.html' %}
+{% endblock %}

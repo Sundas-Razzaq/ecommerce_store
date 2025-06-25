@@ -1,0 +1,149 @@
+{% extends 'seller/seller_base.html' %}
+{% load static %}
+
+{% block seller_content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-{% if object %}edit{% else %}plus{% endif %} me-2"></i>
+                        {% if object %}Update{% else %}Add New{% endif %} Product
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label">Product Name*</label>
+                                {{ form.title }}
+                                {% if form.title.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.title.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Price* ($)</label>
+                                {{ form.price }}
+                                {% if form.price.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.price.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Product Image*</label>
+                            {% if form.instance.image %}
+                                <div class="mb-2">
+                                    <img src="{{ form.instance.image.url }}" class="img-thumbnail" width="150">
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" type="checkbox" name="image-clear" id="image-clear">
+                                        <label class="form-check-label text-danger" for="image-clear">
+                                            Remove current image
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <input type="file" name="image" class="form-control" accept="image/*" id="id_image">
+                            {% if form.image.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.image.errors|first }}
+                                </div>
+                            {% endif %}
+                            <small class="text-muted">Recommended size: 800x800 pixels</small>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Stock Quantity*</label>
+                                {{ form.quantity }}
+                                {% if form.quantity.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.quantity.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Category*</label>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.category.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Gender*</label>
+                                {{ form.gender }}
+                                {% if form.gender.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.gender.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Description*</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.description.errors|first }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Tags</label>
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check form-switch">
+                                    {{ form.is_featured }}
+                                    <label class="form-check-label" for="{{ form.is_featured.id_for_label }}">
+                                        Featured Product
+                                    </label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    {{ form.is_new }}
+                                    <label class="form-check-label" for="{{ form.is_new.id_for_label }}">
+                                        New Arrival
+                                    </label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    {{ form.is_trending }}
+                                    <label class="form-check-label" for="{{ form.is_trending.id_for_label }}">
+                                        Trending
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'seller:product_list' %}" class="btn btn-outline-secondary me-md-2">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                {% if object %}Update{% else %}Create{% endif %} Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

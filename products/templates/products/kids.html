@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}kids{% endblock %}
+{% block content %}
+    <!-- Hero Banner -->
+    <section id="page-header" class="kids-header header">
+        <div class="container">
+            <h1>#KidsCollection</h1>
+            <p>Playful & Practical</p>
+        </div>
+    </section>
+
+   <!-- Category Navigation -->
+<section id="category-nav">
+    <div class="container">
+        <div class="category-links">
+            <a href="#footwear" class="active">Footwear</a>
+            <a href="#clothing">Clothing</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footwear Section -->
+<section id="product-section">
+    <h2 id="footwear">Footwear</h2>
+    <p>Step out in style with our exclusive collection</p>
+    <div class="row g-4 gapp">
+        {% for product in footwear_products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+            <p>No footwear products available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Clothing Section -->
+<section id="product-section">
+    <h2 id="clothing">Clothing</h2>
+    <p>Comfortable styles for active kids</p>
+    <div class="row g-4 gapp">
+        {% for product in clothing_products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+            <p>No clothing available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+    {% endblock %}
+{% block footer %}
+    {% include 'includes/footer.html' %}
+{% endblock %}

@@ -1,0 +1,237 @@
+{% load static %}
+
+<header id="header">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center" style="flex-grow: 1;">
+      <a href="{% url 'core:home' %}"><img src="{% static 'img/logo.png' %}" class="logo" alt="Logo" /></a>
+      <div class="search-container ms-3" style="max-width: 400px; width: 100%;">
+        <form class="search-form" method="get" action="{% url 'core:search_results' %}">
+          <div class="input-group">
+            <input type="text" class="form-control search-input" name="q" placeholder="Search products..."
+              aria-label="Search products" required>
+            <button class="btn btn-search" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div>
+      <button class="navbar-toggler d-lg-none" type="button" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul id="navbar" class="navbar-collapse">
+        <li><a href="{% url 'core:home' %}">Home</a></li>
+        {% if user.is_authenticated %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories</a>
+          <ul class="dropdown-menu fixed-dropdown">
+            <li><a href="{% url 'products:women' %}">Women</a></li>
+            <li><a href="{% url 'products:men' %}">Men</a></li>
+            <li><a href="{% url 'products:kids' %}">Kids</a></li>
+          </ul>
+        </li>
+        {% endif %}
+        <li><a href="{% url 'checkout:order_history' %}">Orders</a></li>
+        {% if user.is_authenticated %}
+        <li class="nav-icons">
+          <div class="d-flex align-items-center">
+            <a href="{% url 'cart:wishlist' %}" class="position-relative me-3">
+              <i class="far fa-heart"></i>
+              {% if wishlist_items_count > 0 %}
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ wishlist_items_count }}
+                <span class="visually-hidden">items in wishlist</span>
+              </span>
+              {% endif %}
+            </a>
+            <a href="{% url 'cart:cart' %}" class="position-relative">
+              <i class="far fa-shopping-bag"></i>
+              {% if cart_items_count > 0 %}
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ cart_items_count }}
+                <span class="visually-hidden">items in cart</span>
+              </span>
+              {% endif %}
+            </a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {% with profile=user.profile|default:None %}
+            {% if profile and profile.picture %}
+            <img src="{{ profile.picture.url }}" class="profile-avatar" alt="Profile">
+            {% else %}
+            <div class="profile-avatar-default">
+              {% if profile and profile.full_name %}
+              {{ profile.full_name|first|upper }}
+              {% else %}
+              {{ user.username|first|upper }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endwith %}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="{% url 'profiles:view' %}"><i class="fas fa-user-circle mr-2"></i>Profile</a></li>
+            <li><a href="{% url 'seller:dashboard' %}"><i class="fas fa-store mr-2"></i>Seller</a></li>
+            <li><a href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li><a href="{% url 'account_signup' %}" class="btn-signup">Sign Up</a></li>
+        <li><a href="{% url 'account_login' %}" class="btn-login">Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</header>
+
+<style>
+  #header {
+    max-height: 10%;
+  }
+
+  #navbar li a {
+    gap: 1 rem;
+    padding: 10px 15px;
+  }
+
+  .nav-icons .d-flex {
+    gap: 5px;
+  }
+
+  .nav-icons a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .search-container {
+    position: relative;
+  }
+
+  .search-input {
+    border-radius: 20px !important;
+    padding: 8px 20px;
+    border: 1px solid #ddd;
+    box-shadow: none;
+    transition: all 0.3s ease;
+  }
+
+  .search-input:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-search {
+    border-radius: 0 20px 20px 0 !important;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    border-left: none;
+    color: #666;
+    transition: all 0.3s ease;
+  }
+
+  .btn-search:hover {
+    background-color: #f8f9fa;
+    color: #333;
+  }
+
+  @media (max-width: 991.98px) {
+    #navbar {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      z-index: 1000;
+      padding: 20px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #navbar.show {
+      display: block;
+    }
+
+    #navbar li {
+      margin-bottom: 15px;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: static !important;
+      transform: none !important;
+      border: none;
+      box-shadow: none;
+      padding-left: 15px;
+      margin-top: 10px;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dropdown.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .search-container {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggleButton = document.getElementById('mobile-menu-toggle');
+    const navbar = document.getElementById('navbar');
+    if (toggleButton && navbar) {
+      toggleButton.addEventListener('click', function (e) {
+        e.stopPropagation();
+        navbar.classList.toggle('show');
+      });
+    }
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const dropdown = this.closest('.dropdown');
+        const dropdownMenu = this.nextElementSibling;
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+          if (menu !== dropdownMenu) {
+            menu.classList.remove('show');
+            menu.previousElementSibling.closest('.dropdown').classList.remove('active');
+          }
+        });
+        dropdownMenu.classList.toggle('show');
+        dropdown.classList.toggle('active');
+      });
+    });
+    document.addEventListener('click', function () {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.classList.remove('show');
+      });
+      document.querySelectorAll('.dropdown').forEach(dropdown => {
+        dropdown.classList.remove('active');
+      });
+      if (navbar && navbar.classList.contains('show')) {
+        navbar.classList.remove('show');
+      }
+    });
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+      menu.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
+  });
+</script>

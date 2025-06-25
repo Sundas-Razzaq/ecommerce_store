@@ -1,0 +1,29 @@
+{% extends "seller/emails/base.html" %}
+
+{% block title %}New Order Notification{% endblock %}
+{% block heading %}New Order Received{% endblock %}
+
+{% block content %}
+<p>Hello {{ seller.shop_name }},</p>
+<p>You have received a new order for your product:</p>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+    <h3 style="margin-top: 0;">Order #{{ order.order_number }}</h3>
+    <p><strong>Product:</strong> {{ order_item.product.title }}</p>
+    <p><strong>Quantity:</strong> {{ order_item.quantity }}</p>
+    <p><strong>Price:</strong> ${{ order_item.price }}</p>
+    <p><strong>Shipping:</strong> ${{ order_item.shipping_price }}</p>
+    <p><strong>Total:</strong> ${{ order_item.subtotal }}</p>
+    <p><strong>Customer:</strong> {{ order.user.get_full_name|default:order.user.username }}</p>
+    <p><strong>Shipping Address:</strong><br>{{ order.shipping_address }}</p>
+</div>
+
+<p>Please log in to your seller dashboard to process this order:</p>
+<a href="{{ protocol }}://{{ domain }}{% url 'seller:seller_orders' %}" 
+   class="button">
+    View Order in Dashboard
+</a>
+
+<p>Thank you for selling with us!</p>
+<p>The {{ site_name }} Team</p>
+{% endblock %}

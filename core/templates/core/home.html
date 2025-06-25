@@ -1,0 +1,515 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block content %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome to our store{% endblock %}
+</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <style>
+    #navbar li a{
+    gap: 1 rem;
+    padding: 10px 15px;
+  }
+    </style>
+    <!-- Navbar Start -->
+    <section id="header">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a href="#"><img src="{% static 'img/logo.png' %}" class="logo" alt="Logo" /></a>
+            <div>
+                <button class="navbar-toggler d-lg-none" type="button" onclick="toggleNavbar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul id="navbar">
+                    <li><a class="active require-signup" href="#">Home</a></li>
+                    <li><a href="#" class="require-signup">About</a></li>
+                    <li><a href="#" class="require-signup">Orders</a></li>
+                    <li><a href="{% url 'account_signup' %}" class="btn-signup">Sign Up</a></li>
+                    <li><a href="{% url 'account_login' %}" class="btn-login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+   <!-- header section start -->
+    <section id="hero">
+        <div class="container">
+            <h4>Welcome to our store</h4>
+            <h2>Discover amazing products</h2>
+            <h1>Join our community</h1>
+            <p>Sign up to access all features and start shopping!</p>
+            <div class="hero-buttons">
+                <a href="{% url 'account_signup' %}"class="btn-hero-signup">Sign Up</a>
+                <a href="{% url 'account_login' %}" class="btn-hero-login">Login</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- features section -->
+    <section id="features" class="section-p1 container">
+        <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f1.png' %}" alt="Free Shipping" class="img-fluid">
+                    <h6>Free Shipping</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f2.png' %}" alt="Online Orders" class="img-fluid">
+                    <h6>Online Orders</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f3.png' %}" alt="Save Money" class="img-fluid">
+                    <h6>Save Money</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f4.png' %}" alt="Promotions" class="img-fluid">
+                    <h6>Promotions</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f5.png' %}" alt="Happy Sell" class="img-fluid">
+                    <h6>Happy Sell</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="fe-box text-center p-3">
+                    <img src="{% static 'img/features/f6.png' %}" alt="24/7 Support" class="img-fluid">
+                    <h6>24/7 Support</h6>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section id="category-nav">
+    <div class="container">
+        <div class="category-links">
+            <a href="#featured" class="active">Featured Products</a>
+            <a href="#trending">Trending</a>
+            <a href="#new arrivals">New Arrivals</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Section -->
+<section id="product-section">
+    <h2 id="featured">Featured Products</h2>
+    <p>Step out in style with our exclusive collection</p>
+    <div class="row g-4 gapp">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w1.jpg' %}" alt="Women's Sneakers" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w2.jpg' %}" alt="Women's Sneakers" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w4.jpg' %}" alt="Women's Sneakers" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- trending Section -->
+<section id="product-section">
+    <h2 id="trending">Trending Products</h2>
+    <p>Complete your look with our stylish accessories</p>
+    <div class="row g-4 gapp">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w19.jpg' %}" alt="Designer handbag" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w21.jpg' %}" alt="Designer handbag" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w23.jpg' %}" alt="Designer handbag" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- new arrivals Section -->
+<section id="product-section">
+    <h2 id="new arrivals">New Arrivals</h2>
+    <p>Enhance your natural beauty with our premium cosmetics</p>
+    <div class="row g-4 gapp">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w25.jpg' %}" alt="Lipstick set" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w27.jpg' %}" alt="Lipstick set" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="pro position-relative p-3">
+                <img src="{% static 'img/women/w31.jpg' %} " alt="Lipstick set" class="img-fluid rounded">
+                <div class="des text-start">
+                    <span>Nike</span>
+                    <h5>Air Max Comfort Sneakers</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>$89</h4>
+                </div>
+                <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+                    <a href="#" class="btn-details">Details</a>
+                    <a href="#" class="btn-cart"><i class="fal fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">What Our Customers Say</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card p-4 h-100" onclick="showSignupModal()">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="mb-4">"The quality of products exceeded my expectations. Will definitely shop here again!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="50" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Sarah Johnson</h6>
+                                <small class="text-muted">Verified Buyer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card p-4 h-100"">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                        <p class="mb-4">"Excellent customer service and fast delivery. Highly recommended!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-3" width="50" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Michael Chen</h6>
+                                <small class="text-muted">Verified Buyer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card p-4 h-100">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="mb-4">"Best shopping experience I've had online. Products are even better in person!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="50" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Emma Rodriguez</h6>
+                                <small class="text-muted">Verified Buyer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">10K+</div>
+                        <p class="mb-0">Happy Customers</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <p class="mb-0">Premium Products</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <p class="mb-0">Customer Support</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <p class="mb-0">Satisfaction Guarantee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter" class="section-p1 section-m1 container-fluid py-5">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md-6 col-lg-4">
+                    <div class="newstext">
+                        <h4>Sign Up For Newsletters</h4>
+                        <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="form d-flex">
+                        <input type="text" class="form-control rounded-0" placeholder="Your email address">
+                        <button class="btn normal rounded-0">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalLabel">Join Us!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>You need to sign up first to access this feature.</p>
+                    <p>Join our community to enjoy all the benefits!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Later</button>
+                    <a href="#" class="btn btn-primary">Sign Up Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="section-p1 container">
+        <div class="row">
+            <div class="col">
+                <img src="{% static 'img/logo.png' %}" alt="#">
+                <h4>Contact</h4>
+                <p><strong>Adress:</strong> 562 Wilingston Road, Street 32, San Francisco</p>
+                <p><strong>Phone:</strong> +92 4444 1111</p>
+                <p><strong>Hours:</strong> 10:00 - 18:00. Mon-Sat</p>
+                <div class="follow">
+                    <h4>Follow Us</h4>
+                    <div class="icon">
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-pinterest-p"></i>
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h4>About</h4>
+                <a href="#" class="require-signup">About us</a>
+                <a href="#" class="require-signup">Delivery Information</a>
+                <a href="#" class="require-signup">Privacy Policy</a>
+                <a href="#" class="require-signup">Terms and Conditions</a>
+                <a href="#" class="require-signup">Contact Us</a>
+            </div>
+            <div class="col">
+                <h4>My Account</h4>
+                <a href="#">Sign up</a>
+                <a href="#">Login</a>
+                <a href="#" class="require-signup">Help</a>
+            </div>
+            <div class="col install">
+                <h4>Install App</h4>
+                <p>From App Store or Google Play</p>
+                <div class="row">
+                    <img src="{% static 'img/pay/app.jpg' %}" alt="#">
+                    <img src="{% static 'img/pay/play.jpg' %}" alt="#">
+                </div>
+                <p>Secured Payment Gateways</p>
+                <img src="{% static 'img/pay/pay.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="copyright text-center mt-4">
+            <p>© 2023, Tech2etc - All Rights Reserved</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
+{% endblock %}

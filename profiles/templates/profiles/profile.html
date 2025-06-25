@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{% block title %}Cara{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    {% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <!-- Messages Display -->
+            {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="card shadow-sm">
+                <div class="card-header" style="background: #088178; color: white; text-align: center; padding: 1rem;">
+                    <h3 class="mb-0"><i class="fas fa-user-circle me-2"></i>Your Profile</h3>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <!-- Left Column - Profile Picture -->
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="position-relative d-inline-block mb-3">
+                                    {% if profile.picture %}
+                                        <img src="{{ profile.picture.url }}" class="rounded-circle" width="150" height="150" alt="Profile" style="object-fit: cover; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                    {% else %}
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                                             style="width: 150px; height: 150px; background: #7c3aed; color: white; font-size: 3rem; font-weight: bold; border: 3px solid white;">
+                                            {{ user.username|first|upper }}
+                                        </div>
+                                    {% endif %}
+                                    <label class="position-absolute bottom-0 end-0 rounded-circle p-2" 
+                                           style="background: #088178; color: white; width: 36px; height: 36px; cursor: pointer; transition: all 0.3s;">
+                                        <i class="fas fa-camera"></i>
+                                        <input type="file" id="picture" name="picture" accept="image/*" class="d-none">
+                                    </label>
+                                </div>
+                                <small class="text-muted d-block">Click the camera icon to change photo</small>
+                            </div>
+                            
+                            <!-- Right Column - Profile Information -->
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="full_name" class="form-label" style="color: #088178;"><b>Full Name</b></label>
+                                        <input type="text" class="form-control py-2" id="full_name" name="full_name" 
+                                               value="{{ profile.full_name|default:'' }}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone_number" class="form-label" style="color: #088178;"><b>Phone Number</b></label>
+                                        <input type="tel" class="form-control py-2" id="phone_number" name="phone_number" 
+                                               value="{{ profile.phone_number|default:'' }}">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="address_line1" class="form-label" style="color: #088178;"><b>Address Line 1</b></label>
+                                    <input type="text" class="form-control py-2" id="address_line1" name="address_line1" 
+                                           value="{{ profile.address_line1|default:'' }}">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="address_line2" class="form-label" style="color: #088178;"><b>Address Line 2</b></label>
+                                    <input type="text" class="form-control py-2" id="address_line2" name="address_line2" 
+                                           value="{{ profile.address_line2|default:'' }}">
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="city" class="form-label" style="color: #088178;"><b>City</b></label>
+                                        <input type="text" class="form-control py-2" id="city" name="city" 
+                                               value="{{ profile.city|default:'' }}">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="state" class="form-label" style="color: #088178;"><b>State/Province</b></label>
+                                        <input type="text" class="form-control py-2" id="state" name="state" 
+                                               value="{{ profile.state|default:'' }}">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="postal_code" class="form-label" style="color: #088178;"><b>Postal Code</b></label>
+                                        <input type="text" class="form-control py-2" id="postal_code" name="postal_code" 
+                                               value="{{ profile.postal_code|default:'' }}">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="country" class="form-label" style="color: #088178;"><b>Country</b></label>
+                                    <input type="text" class="form-control py-2" id="country" name="country" 
+                                           value="{{ profile.country|default:'' }}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Account Type Section -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card border-0 shadow-sm mb-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="color: #088178;"><i class="fas fa-id-card me-2"></i>Account Type</h5>
+                                        <p class="card-text">
+                                            Current role: 
+                                            <span class="badge rounded-pill 
+                                                {% if profile.role == 'seller' %}bg-success{% else %}bg-primary{% endif %}">
+                                                {{ profile.get_role_display }}
+                                            </span>
+                                        </p>
+                                        
+                                        {% if not profile.is_seller and not request.user.is_superuser %}
+                                        <div class="d-grid gap-2">
+                                            <a href="{% url 'profiles:become_seller' %}" class="btn btn-warning">
+                                                <i class="fas fa-store-alt me-2"></i>Become a Seller
+                                            </a>
+                                            <small class="text-muted">By becoming a seller, you'll be able to list products for sale.</small>
+                                        </div>
+                                        {% elif profile.is_seller %}
+                                        <div class="alert alert-success">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            You're registered as a seller. You can now list products in your seller dashboard.
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn w-100 py-2 mt-3" style="background: #088178; color: white;">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .form-control {
+        border-radius: 5px;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+    }
+    
+    .form-control:focus {
+        border-color: #a78bfa;
+        box-shadow: 0 0 0 0.25rem rgba(167, 139, 250, 0.25);
+    }
+    
+    label[for="picture"]:hover {
+        transform: scale(1.1);
+        background: #5b21b6 !important;
+    }
+    
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.5em 0.75em;
+    }
+    
+    .alert-success {
+        background-color: #d1fae5;
+        border-color: #a7f3d0;
+        color: #065f46;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Image preview functionality
+    const fileInput = document.getElementById('picture');
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                const container = this.closest('.position-relative');
+                const existingImg = container.querySelector('img');
+                const initialsDiv = container.querySelector('div.rounded-circle');
+                
+                reader.onload = function(event) {
+                    if (initialsDiv) initialsDiv.style.display = 'none';
+                    
+                    if (existingImg) {
+                        existingImg.src = event.target.result;
+                    } else {
+                        const newImg = document.createElement('img');
+                        newImg.src = event.target.result;
+                        newImg.className = 'rounded-circle';
+                        newImg.style.width = '150px';
+                        newImg.style.height = '150px';
+                        newImg.style.objectFit = 'cover';
+                        newImg.style.border = '3px solid white';
+                        newImg.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                        container.prepend(newImg);
+                    }
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+    }
+    
+    // Form submission feedback
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function() {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+                submitBtn.disabled = true;
+            }
+        });
+    }
+    
+    // Auto-dismiss alerts after 5 seconds
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 5000);
+});
+</script>
+{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

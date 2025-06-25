@@ -1,0 +1,203 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Shipping Details</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="checkout-form" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <strong>Please correct the following errors:</strong>
+                            <ul class="mb-0">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                                   name="email" value="{{ form.email.value|default:user.email }}" required>
+                            {% if form.email.errors %}
+                            <div class="invalid-feedback">{{ form.email.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Full Shipping Address</label>
+                            <textarea class="form-control {% if form.shipping_address.errors %}is-invalid{% endif %}" 
+                                      name="shipping_address" rows="3" required>{{ form.shipping_address.value|default:'' }}</textarea>
+                            {% if form.shipping_address.errors %}
+                            <div class="invalid-feedback">{{ form.shipping_address.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}" 
+                                   name="phone_number" value="{{ form.phone_number.value|default:'' }}" required>
+                            {% if form.phone_number.errors %}
+                            <div class="invalid-feedback">{{ form.phone_number.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Order Notes (Optional)</label>
+                            <textarea class="form-control" name="order_note" rows="2">{{ form.order_note.value|default:'' }}</textarea>
+                        </div>
+                        
+                        <div class="form-check mb-4">
+                            <input class="form-check-input {% if form.accept_terms.errors %}is-invalid{% endif %}" 
+                                   type="checkbox" name="accept_terms" id="accept_terms" required
+                                   {% if form.accept_terms.value %}checked{% endif %}>
+                            <label class="form-check-label" for="accept_terms">
+                                I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a>
+                            </label>
+                            {% if form.accept_terms.errors %}
+                            <div class="invalid-feedback">{{ form.accept_terms.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 py-3" id="submit-btn">
+                            <span class="submit-text">Place Order (Cash on Delivery)</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Order Summary</h4>
+                </div>
+                <div class="card-body">
+                    {% include 'checkout/partials/order_summary.html' %}
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <h5>Total:</h5>
+                        <h5>${{ cart.total_price|floatformat:2 }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Terms & Conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% include 'checkout/partials/terms_conditions.html' %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('checkout-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitText = submitBtn.querySelector('.submit-text');
+    const spinner = submitBtn.querySelector('.spinner-border');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.classList.add('d-none');
+        spinner.classList.remove('d-none');
+        
+        // Clear previous errors
+        document.querySelectorAll('.is-invalid').forEach(el => {
+            el.classList.remove('is-invalid');
+        });
+        document.querySelectorAll('.invalid-feedback').forEach(el => {
+            el.remove();
+        });
+        const existingAlert = form.querySelector('.alert-danger');
+        if (existingAlert) existingAlert.remove();
+        
+        // Submit via fetch API
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirect_url;
+            } else {
+                // Handle form errors
+                if (data.errors) {
+                    // Show general errors
+                    if (data.non_field_errors) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'alert alert-danger';
+                        errorDiv.innerHTML = `<strong>Error:</strong> ${data.non_field_errors.join('<br>')}`;
+                        form.prepend(errorDiv);
+                    }
+                    
+                    // Show field-specific errors
+                    for (const field in data.errors) {
+                        const input = form.querySelector(`[name="${field}"]`) || 
+                                      form.querySelector(`[name="${field}_0"]`) || 
+                                      form.querySelector(`[name="${field}_1"]`);
+                        if (input) {
+                            input.classList.add('is-invalid');
+                            const errorDiv = document.createElement('div');
+                            errorDiv.className = 'invalid-feedback';
+                            errorDiv.textContent = data.errors[field][0].message;
+                            input.parentNode.appendChild(errorDiv);
+                        }
+                    }
+                    
+                    // Scroll to first error
+                    const firstError = form.querySelector('.is-invalid');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An unexpected error occurred. Please try again.');
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitText.classList.remove('d-none');
+            spinner.classList.add('d-none');
+        });
+    });
+});
+</script>
+{% endblock %}

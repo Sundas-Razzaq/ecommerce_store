@@ -1,0 +1,18 @@
+<div class="mb-3">
+    <h6 class="d-flex justify-content-between mb-3">
+        <span>Items ({{ order.total_items }}):</span>
+    </h6>
+    <ul class="list-group list-group-flush">
+        {% for item in order.items.all %}
+        <li class="list-group-item px-0">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h6 class="my-0">{{ item.product.title }}</h6>
+                    <small class="text-muted">Qty: {{ item.quantity }}</small>
+                </div>
+                <span class="text-muted">${{ item.subtotal }}</span>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

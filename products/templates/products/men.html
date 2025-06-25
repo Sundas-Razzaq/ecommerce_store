@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}men{% endblock %}
+{% block content %}
+    <!-- Hero Banner -->
+    <section id="page-header" class="men-header header">
+        <div class="container">
+            <h1>#MensCollection</h1>
+            <p>Style Redefined</p>
+        </div>
+    </section>
+
+  <!-- Category Navigation -->
+<section id="category-nav">
+    <div class="container">
+        <div class="category-links">
+            <a href="#footwear" class="active">Footwear</a>
+            <a href="#wallets">Wallets</a>
+            <a href="#watches">Watches</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footwear Section -->
+<section id="product-section">
+    <h2 id="footwear">Footwear</h2>
+    <p>Premium comfort for every step</p>
+    <div class="row g-4 gapp">
+        {% for product in footwear_products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+            <p>No footwear products available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Wallets Section -->
+<section id="product-section">
+    <h2 id="wallets">Wallets</h2>
+    <p>Sleek storage solutions</p>
+    <div class="row g-4 gapp">
+        {% for product in wallets_products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+            <p>No wallets available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Watches Section -->
+<section id="product-section">
+    <h2 id="watches">Watches</h2>
+    <p>Precision timepieces</p>
+    <div class="row g-4 gapp">
+        {% for product in watches_products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+            <p>No watches available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+    {% endblock %}
+{% block footer %}
+    {% include 'includes/footer.html' %}
+{% endblock %}

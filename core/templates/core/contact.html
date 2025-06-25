@@ -1,0 +1,152 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}contact{% endblock %}
+{% block content %}
+
+    <!-- Hero Banner -->
+    <section id="page-header" class="contact-header">
+        <div class="container text-center py-5">
+            <h2>#Let'sTalk</h2>
+            <p>We'd love to hear from you</p>
+        </div>
+    </section>
+
+    <!-- Contact Details -->
+    <section id="contact-details" class="section-p1 container">
+        <div class="row">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="details p-4">
+                    <h2>Visit us or contact us</h2>
+                    <h3 class="mt-4">Head Office</h3>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fal fa-map mt-1 me-3"></i>
+                            <p>562 Wellington Road, Street 32, San Francisco</p>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="far fa-envelope mt-1 me-3"></i>
+                            <p>contact@cara.com</p>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-phone-alt mt-1 me-3"></i>
+                            <p>+92 4444 1111</p>
+                        </li>
+                        <li class="d-flex align-items-start">
+                            <i class="far fa-clock mt-1 me-3"></i>
+                            <p>Monday to Saturday: 9:00am to 5:00pm</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="map ratio ratio-16x9">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.325538729041!2d-122.4194!3d37.7749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ2JzI5LjYiTiAxMjLCsDI1JzA5LjkiVw!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+                        allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="form-details" class="section-p1 container">
+        <div class="row">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <form class="p-4">
+                    <h2 class="mb-4">Send us a message</h2>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Your Name">
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Subject">
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="5" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn normal">Submit</button>
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <div class="people p-4">
+                    <div class="d-flex mb-4">
+                        <img src="{% static 'img/people/3.png' %}" alt="Sarah Johnson" class="rounded-circle me-3"
+                            width="80">
+                        <div>
+                            <p class="mb-0"><strong>Sarah Johnson</strong></p>
+                            <p class="mb-1">CEO</p>
+                            <p class="mb-1">Phone: +92 4444 1111</p>
+                            <p>Email: sarah@cara.com</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <img src="{% static 'img/people/2.png' %}" alt="Michael Chen" class="rounded-circle me-3"
+                            width="80">
+                        <div>
+                            <p class="mb-0"><strong>Michael Chen</strong></p>
+                            <p class="mb-1">Support Manager</p>
+                            <p class="mb-1">Phone: +92 4444 2222</p>
+                            <p>Email: michael@cara.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section-p1 container">
+        <h2 class="text-center mb-5">Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item mb-3">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq1">
+                        What's your return policy?
+                    </button>
+                </h3>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        We accept returns within 30 days of purchase for unused items with original tags. Please contact
+                        our support team to initiate a return.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item mb-3">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq2">
+                        How long does shipping take?
+                    </button>
+                </h3>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Most orders ship within 1-2 business days and arrive within 3-5 business days. Express shipping
+                        options are available at checkout.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq3">
+                        Do you ship internationally?
+                    </button>
+                </h3>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes! We ship to over 50 countries worldwide. International shipping rates and delivery times
+                        vary by destination.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     {% endblock %}
+{% block footer %}
+    {% include 'includes/footer.html' %}
+{% endblock %}

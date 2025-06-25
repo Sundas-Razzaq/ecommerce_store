@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-6">{{ title }}</h1>
+            <div class="d-flex gap-2 mb-3">
+                <a href="{% url 'products:product_list' %}" 
+                   class="btn btn-outline-primary btn-sm">All</a>
+                <a href="{% url 'products:product_list' %}?gender=W" 
+                   class="btn btn-outline-primary btn-sm">Women</a>
+                <a href="{% url 'products:product_list' %}?gender=M" 
+                   class="btn btn-outline-primary btn-sm">Men</a>
+                <a href="{% url 'products:product_list' %}?gender=K" 
+                   class="btn btn-outline-primary btn-sm">Kids</a>
+            </div>
+            <hr>
+        </div>
+    </div>
+    
+    <!-- Product Grid using your existing product_card partial -->
+    <div class="row g-4">
+        {% for product in products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No products found.</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

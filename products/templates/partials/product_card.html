@@ -1,0 +1,167 @@
+{% load static %}
+
+<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+  <div class="pro position-relative p-3" data-product-card>
+    <!-- Stock Badge -->
+    <div class="position-absolute top-0 start-0 m-2">
+      {% if product.quantity > 0 %}
+      <span class="badge" style="background-color: #465b52; color: white;">In Stock</span>
+      {% else %}
+      <span class="badge bg-secondary">Out of Stock</span>
+      {% endif %}
+    </div>
+
+    <img src="{{ product.image.url }}" alt="{{ product.title }}" class="img-fluid rounded">
+
+    <div class="des text-start">
+      <span>{{ product.brand }}</span>
+      <h5>{{ product.title }}</h5>
+      <div class="star">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i>
+        <i class="fas fa-star"></i><i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+      </div>
+      <h4>${{ product.price }}</h4>
+    </div>
+
+    <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+      <a href="{% url 'products:product_detail' product.id %}"
+         class="btn-details"
+         onclick="event.stopPropagation()">Details</a>
+
+      <form action="{% url 'cart:toggle_wishlist' product.id %}" method="post" class="wishlist-form">
+        {% csrf_token %}
+        <button type="submit" class="btn-wishlist {% if product in request.user.wishlist_products.all %}in-wishlist{% endif %}" 
+                onclick="event.stopPropagation()">
+          <i class="{% if product in request.user.wishlist_products.all %}fas{% else %}far{% endif %} fa-heart"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+.btn-wishlist {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50px;
+    border: 1px solid #cce7d0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    outline: none;
+    background-color: #bdd1c0;
+    color: #e63946;
+}
+
+.btn-wishlist.in-wishlist {
+    background-color: #e63946;
+    color: white;
+}
+
+.btn-wishlist:hover {
+    transform: scale(1.1);
+}
+
+.btn-wishlist:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn-wishlist i {
+    font-size: 14px;
+    pointer-events: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all wishlist buttons
+    document.querySelectorAll('.wishlist-form').forEach(form => {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const button = this.querySelector('.btn-wishlist');
+            const heartIcon = button.querySelector('i');
+            
+            // Disable button during request
+            button.disabled = true;
+            
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: new FormData(this),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': this.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update button state
+                    button.classList.toggle('in-wishlist');
+                    heartIcon.classList.toggle('far');
+                    heartIcon.classList.toggle('fas');
+                    
+                    // Update wishlist counter
+                    const counters = document.querySelectorAll('.wishlist-counter');
+                    counters.forEach(counter => {
+                        counter.textContent = data.wishlist_count;
+                    });
+                    
+                    // Show only one toast message
+                    if (data.action === 'added' || data.action === 'removed') {
+                        showToast(
+                            data.action === 'added' ? 'Added to wishlist' : 'Removed from wishlist',
+                            data.action === 'added' ? 'success' : 'danger'
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                button.disabled = false;
+            }
+        });
+    });
+
+    // Existing toast functions remain the same
+    function showToast(message, type = 'success') {
+        // First remove any existing toasts
+        const existingToasts = document.querySelectorAll('.toast-container .toast');
+        existingToasts.forEach(toast => toast.remove());
+        
+        const toastContainer = document.querySelector('.toast-container') || createToastContainer();
+        const toastId = 'toast-' + Date.now();
+        const toast = document.createElement('div');
+        toast.id = toastId;
+        toast.className = `toast show align-items-center text-white bg-${type}`;
+        toast.setAttribute('role', 'alert');
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" 
+                        onclick="document.getElementById('${toastId}').remove()"></button>
+            </div>
+        `;
+        toastContainer.appendChild(toast);
+        setTimeout(() => {
+            const toastElement = document.getElementById(toastId);
+            if (toastElement) toastElement.remove();
+        }, 3000);
+    }
+    
+    function createToastContainer() {
+        const container = document.createElement('div');
+        container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+        container.style.zIndex = '9999';
+        document.body.appendChild(container);
+        return container;
+    }
+});
+</script>

@@ -1,0 +1,197 @@
+{% extends 'seller/seller_base.html' %}
+{% load static %}
+
+{% block seller_content %}
+<style>
+    :root {
+        --primary-color: #088178;
+        --secondary-color: #606063;
+        --accent-color: #ff9f43;
+        --success-color: #28a745;
+        --warning-color: #ffc107;
+        --light-bg: #f8f9fa;
+        --border-color: #e9ecef;
+    }
+    
+    .alert-primary {
+        background-color: rgba(8, 129, 120, 0.1);
+        border-left: 4px solid var(--primary-color);
+        border-radius: 0 8px 8px 0;
+        color: var(--secondary-color);
+    }
+    
+    .alert-primary .alert-heading {
+        color: var(--primary-color);
+    }
+    
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-header {
+        background: white;
+        border-bottom: 1px solid var(--border-color);
+        font-weight: 600;
+        color: var(--primary-color);
+        padding: 1rem 1.5rem;
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    .dashboard-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .bg-primary-light {
+        background-color: rgba(8, 129, 120, 0.1);
+        color: var(--primary-color);
+    }
+    
+    .bg-success-light {
+        background-color: rgba(40, 167, 69, 0.1);
+        color: var(--success-color);
+    }
+    
+    .bg-warning-light {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: var(--warning-color);
+    }
+    
+    .btn-outline-primary {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    
+    .btn-outline-primary:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .btn-outline-success {
+        color: var(--success-color);
+        border-color: var(--success-color);
+    }
+    
+    .btn-outline-success:hover {
+        background: var(--success-color);
+        color: white;
+    }
+    
+    .btn-outline-warning {
+        color: var(--warning-color);
+        border-color: var(--warning-color);
+    }
+    
+    .btn-outline-warning:hover {
+        background: var(--warning-color);
+        color: white;
+    }
+    
+    .quick-actions .btn {
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .quick-actions .btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    h3 {
+        color: var(--secondary-color);
+        font-weight: 700;
+    }
+    
+    .text-muted {
+        color: var(--secondary-color) !important;
+        opacity: 0.8;
+    }
+</style>
+
+<div class="container">
+    <!-- Welcome Banner -->
+    <div class="alert alert-primary border-0 mb-4">
+        <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+                <h4 class="alert-heading mb-1">
+                    <i class="fas fa-store me-2"></i>Welcome, {{ request.user.seller_profile.shop_name }}!
+                </h4>
+                <p class="mb-0">Manage your products, orders, and store settings from this dashboard.</p>
+            </div>
+            <img src="{% static 'img/women/w-banner.jpg' %}" height="80" class="d-none d-md-block">
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="dashboard-icon bg-primary-light mb-3">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3 class="mb-1">{{ request.user.seller_profile.products.count }}</h3>
+                    <p class="text-muted mb-2">Total Products</p>
+                    <a href="{% url 'seller:product_list' %}" class="btn btn-sm btn-outline-primary">View Products</a>
+                </div>
+            </div>
+        </div>
+        
+<div class="col-md-4 mb-3">
+    <div class="card h-100">
+        <div class="card-body text-center">
+            <div class="dashboard-icon bg-success-light mb-3">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <h3 class="mb-1">{{ request.user.seller_profile.order_items.count }}</h3>
+            <p class="text-muted mb-2">Total Orders</p>
+            <a href="{% url 'seller:seller_orders' %}" class="btn btn-sm btn-outline-success">View Orders</a>
+        </div>
+    </div>
+</div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="dashboard-icon bg-warning-light mb-3">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="mb-1">$0</h3>
+                    <p class="text-muted mb-2">Total Earnings</p>
+                    <a href="#" class="btn btn-sm btn-outline-warning">View Analytics</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap gap-3 quick-actions">
+                <a href="{% url 'seller:add_product' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Add Product
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

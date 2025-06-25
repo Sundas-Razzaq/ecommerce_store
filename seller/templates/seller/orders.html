@@ -1,0 +1,62 @@
+{% extends 'seller/seller_base.html' %}
+{% load static %}
+
+{% block seller_content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0"><i class="fas fa-shopping-bag me-2"></i>Your Orders</h4>
+        </div>
+        <div class="card-body">
+            {% if order_items %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order_items %}
+                        <tr>
+                            <td>{{ item.order.order_number }}</td>
+                            <td>{{ item.order.user.get_full_name|default:item.order.user.username }}</td>
+                            <td>{{ item.product.title }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.price }}</td>
+                            <td>${{ item.subtotal }}</td>
+                            <td>
+                                <form method="post" action="{% url 'seller:update_order_status' item.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <div class="input-group input-group-sm">
+                                        <select name="status" class="form-select">
+                                            {% for code, name in item.ITEM_STATUS %}
+                                            <option value="{{ code }}" {% if item.status == code %}selected{% endif %}>
+                                                {{ name }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                You don't have any orders yet.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}women{% endblock %}
+{% block content %}
+    <!-- Hero Banner -->
+    <section id="page-header" class="women-header header">
+        <div class="container">
+            <h1>#Women's Collection</h1>
+            <p>Discover your perfect style</p>
+        </div>
+    </section>
+
+   <!-- Category Navigation -->
+<section id="category-nav">
+    <div class="container">
+        <div class="category-links">
+            <a href="#footwear" class="active">Footwear</a>
+            <a href="#accesseries">Accesseries</a>
+            <a href="#makeup">Makeup</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footwear Section -->
+<section id="product-section">
+    <h2 id="footwear">Footwear</h2>
+    <p>Step out in style with our exclusive collection</p>
+    <div class="row g-4 gapp">
+        {% for product in footwear_products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+            <p>No footwear products available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Accessories Section -->
+<section id="product-section">
+    <h2 id="accessories">Accessories</h2>
+    <p>Complete your look with our stylish accessories</p>
+    <div class="row g-4 gapp">
+        {% for product in accessories_products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+            <p>No accessories available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Makeup Section -->
+<section id="product-section">
+    <h2 id="makeup">Makeup</h2>
+    <p>Enhance your natural beauty with our premium cosmetics</p>
+    <div class="row g-4 gapp">
+        {% for product in makeup_products %}
+            {% include 'partials/product_card.html' with product=product %}
+        {% empty %}
+            <p>No makeup products available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+ {% endblock %}
+{% block footer %}
+    {% include 'includes/footer.html' %}
+{% endblock %}
