@@ -1,7 +1,7 @@
 {% load static %}
 
 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-  <div class="pro position-relative p-3" data-product-card>
+  <div class="pro position-relative p-2 border" data-product-card style="border-radius: 8px;">
     <!-- Stock Badge -->
     <div class="position-absolute top-0 start-0 m-2">
       {% if product.quantity > 0 %}
@@ -11,20 +11,17 @@
       {% endif %}
     </div>
 
-    <img src="{{ product.image.url }}" alt="{{ product.title }}" class="img-fluid rounded">
-
-    <div class="des text-start">
-      <span>{{ product.brand }}</span>
-      <h5>{{ product.title }}</h5>
-      <div class="star">
-        <i class="fas fa-star"></i><i class="fas fa-star"></i>
-        <i class="fas fa-star"></i><i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-      </div>
-      <h4>${{ product.price }}</h4>
+    <div style="height: 160px; overflow: hidden;">
+      <img src="{{ product.image.url }}" alt="{{ product.title }}" class="img-fluid w-100 h-100 object-fit-cover rounded">
     </div>
 
-    <div class="product-actions position-absolute bottom-0 end-0 m-3 d-flex">
+    <div class="des text-start mt-2 px-1">
+      <span class="text-muted small">{{ product.brand }}</span>
+      <h5 class="mb-1" style="font-size: 0.95rem; line-height: 1.3; height: 2.6rem; overflow: hidden;">{{ product.title }}</h5>
+      <h4 class="mt-1">${{ product.price }}</h4>
+    </div>
+
+    <div class="product-actions d-flex justify-content-between align-items-center mt-2 px-1 pb-1">
       <a href="{% url 'products:product_detail' product.id %}"
          class="btn-details"
          onclick="event.stopPropagation()">Details</a>
@@ -41,6 +38,31 @@
 </div>
 
 <style>
+.pro {
+  transition: transform 0.3s ease;
+  background: white;
+}
+
+.pro:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-details {
+  padding: 0.25rem 0.75rem;
+  background-color: #465b52;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-details:hover {
+  background-color: #3a4c43;
+  color: white;
+}
+
 .btn-wishlist {
     width: 30px;
     height: 30px;
@@ -50,7 +72,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 5px;
     transition: all 0.3s ease;
     cursor: pointer;
     outline: none;
@@ -75,6 +96,16 @@
 .btn-wishlist i {
     font-size: 14px;
     pointer-events: none;
+}
+
+.star i {
+  color: #ffc107;
+  font-size: 0.8rem;
+}
+
+.badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
 }
 </style>
 
@@ -130,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Existing toast functions remain the same
     function showToast(message, type = 'success') {
         // First remove any existing toasts
         const existingToasts = document.querySelectorAll('.toast-container .toast');

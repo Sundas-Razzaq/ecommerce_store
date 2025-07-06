@@ -3,9 +3,7 @@ from django.core.validators import RegexValidator
 from .models import Order
 
 class CheckoutForm(forms.ModelForm):
-    accept_terms = forms.BooleanField(
-        required=True,
-        label="I agree to the Terms & Conditions",
+    accept_terms = forms.BooleanField(required=True,label="I agree to the Terms & Conditions",
         error_messages={
             'required': 'You must accept the terms and conditions'
         }
@@ -50,5 +48,4 @@ class CheckoutForm(forms.ModelForm):
     
     def clean(self):
         cleaned_data = super().clean()
-        # Add any additional validation here if needed
         return cleaned_data

@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 
-#--------------------------------------------------------#
-# This view handles the product listing pages for different
-#--------------------------------------------------------#
+#--------------------------------------------#
+# This view handles the product listing pages
+#--------------------------------------------#
 def women_products(request):
     women_products = Product.objects.filter(gender='W')
     
